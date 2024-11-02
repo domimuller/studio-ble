@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">BLE Analyser</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Trapeze BLE Analyser</string>
+    <string name="nav_header_subtitle">dominique.mueller@trapezegroup.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_peripheral">Peripheral</string>
+    <string name="menu_central">Central</string>
+    <string name="menu_log">Log</string>
+    <string name="menu_config">Config</string>
+    <string name="ble_mode_selection">BLE Mode Selection</string>
+    <string name="ble_role_peripheral">Peripheral Mode</string>
+    <string name="ble_role_central">Central Mode</string>
+    <string name="ble_enable">Enable BLE</string>
+    <string name="radio_adv_extended">Extended</string>
+    <string name="radio_adv_legacy">Legacy</string>
+    <string name="title_request_log">Request Log</string>
+    <string name="title_advertising_mode">Advertising Mode</string>
+    <string name="alert_title_confirm_exit">Confirm Exit</string>
+    <string name="alert_title_sure_to_exit">Are you sure you want to exit?</string>
+    <string name="radio_adv_off">Off</string>
+    <string name="ble_role_none">None</string>
+</resources>

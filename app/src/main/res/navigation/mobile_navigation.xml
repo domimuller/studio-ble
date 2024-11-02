@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_config">
+
+    <fragment
+        android:id="@+id/nav_config"
+        android:name="io.amotech.bleexperimentation.ui.config.ConfigFragment"
+        android:label="@string/menu_config"
+        tools:layout="@layout/fragment_config" />
+    <fragment
+        android:id="@+id/nav_peripheral"
+        android:name="io.amotech.bleexperimentation.ui.peripheral.PeripheralFragment"
+        android:label="@string/menu_peripheral"
+        tools:layout="@layout/fragment_peripheral" />
+
+    <fragment
+        android:id="@+id/nav_central"
+        android:name="io.amotech.bleexperimentation.ui.central.CentralFragment"
+        android:label="@string/menu_central"
+        tools:layout="@layout/fragment_central" />
+
+    <fragment
+        android:id="@+id/nav_log"
+        android:name="io.amotech.bleexperimentation.ui.log.LogFragment"
+        android:label="@string/menu_log"
+        tools:layout="@layout/fragment_log" />
+
+</navigation>
