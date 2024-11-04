@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,6 +18,7 @@ import io.amotech.bleexperimentation.databinding.FragmentPeripheralBinding;
 public class PeripheralFragment extends Fragment {
 
     private FragmentPeripheralBinding binding;
+    private boolean isVisible;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -27,14 +27,10 @@ public class PeripheralFragment extends Fragment {
         PeripheralViewModel peripheralViewModel = new ViewModelProvider(this).get(PeripheralViewModel.class);
         binding = FragmentPeripheralBinding.inflate(inflater, container, false);
 
-        // set buttons from app
-        setButtonState("view    ");
-
         // set up the radio group for advertising mode
         RadioGroup radioGroupAdvertisingMode = binding.radioGroupAdvertisingMode;
-        radioGroupAdvertisingMode.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
+        radioGroupAdvertisingMode.setOnCheckedChangeListener((group, checkedId) -> {
+            if (isVisible) {
                 MainApplication app = (MainApplication) getActivity().getApplication();
                 if (checkedId == R.id.radio_adv_off) {
                     app.setAdvKind(MainApplication.AdvKind.ADV_KIND_OFF);
@@ -43,7 +39,6 @@ public class PeripheralFragment extends Fragment {
                 } else if (checkedId == R.id.radio_adv_extended) {
                     app.setAdvKind(MainApplication.AdvKind.ADV_KIND_EXTENDED);
                 }
-                debug("listener");
             }
         });
 
@@ -52,25 +47,19 @@ public class PeripheralFragment extends Fragment {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        setButtonState("resume  ");
-    }
 
-    private void setButtonState(String tag) {
+    private void setButtonState() {
 
         // Set up the RadioGroup for Advertising Mode
-        RadioGroup radioGroupAdvertisingMode = binding.radioGroupAdvertisingMode;
         RadioButton radioAdvOff = binding.radioAdvOff;
         RadioButton radioAdvLegacy = binding.radioAdvLegacy;
         RadioButton radioAdvExtended = binding.radioAdvExtended;
 
         // initial state
         MainApplication app = (MainApplication) getActivity().getApplication();
-        radioAdvOff.setEnabled(app.isBluetoothEnabled());
-        radioAdvLegacy.setEnabled(app.isBluetoothEnabled());
-        radioAdvExtended.setEnabled(app.isBluetoothEnabled());
+        radioAdvOff.setEnabled(app.isAppEnabled());
+        radioAdvLegacy.setEnabled(app.isAppEnabled());
+        radioAdvExtended.setEnabled(app.isAppEnabled());
         if (app.getAdvKind() == MainApplication.AdvKind.ADV_KIND_OFF && !radioAdvOff.isChecked()) {
             radioAdvOff.setChecked(app.getAdvKind() == MainApplication.AdvKind.ADV_KIND_OFF);
         }
@@ -81,15 +70,6 @@ public class PeripheralFragment extends Fragment {
             radioAdvExtended.setChecked(app.getAdvKind() == MainApplication.AdvKind.ADV_KIND_EXTENDED);
         }
 
-        // debug output
-        debug(tag);
-
-    }
-
-    private void debug(String tag) {
-        MainApplication app = (MainApplication) getActivity().getApplication();
-        TextView textLog = binding.textLog;
-        textLog.setText(textLog.getText() + "\n" + String.format("[%s] enabled: %b%ndevice role: %s%nadv kind: %s", tag, app.isBluetoothEnabled(), app.getDeviceRole(), app.getAdvKind())); // Initialize with empty text or any initial log content
     }
 
     @Override
@@ -97,4 +77,18 @@ public class PeripheralFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume(); // first  statement!
+        setButtonState();
+        isVisible = true; // last statement!
+    }
+
+    @Override
+    public void onPause() {
+        isVisible = false; // first  statement!
+        super.onPause(); // last statement!
+    }
+
 }

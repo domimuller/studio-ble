@@ -15,6 +15,7 @@ import io.amotech.bleexperimentation.databinding.FragmentCentralBinding;
 public class CentralFragment extends Fragment {
 
     private FragmentCentralBinding binding;
+    private boolean isVisible;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -34,4 +35,17 @@ public class CentralFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume(); // first  statement!
+        isVisible = true; // last statement!
+    }
+
+    @Override
+    public void onPause() {
+        isVisible = false; // first  statement!
+        super.onPause(); // last statement!
+    }
+
 }

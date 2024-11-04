@@ -17,6 +17,7 @@ import io.amotech.bleexperimentation.databinding.FragmentLogBinding;
 public class LogFragment extends Fragment {
 
     private FragmentLogBinding binding;
+    private boolean isVisible;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LogViewModel logViewModel = new ViewModelProvider(this).get(LogViewModel.class);
@@ -85,4 +86,18 @@ public class LogFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume(); // first  statement!
+        isVisible = true; // last statement!
+    }
+
+    @Override
+    public void onPause() {
+        isVisible = false; // first  statement!
+        super.onPause(); // last statement!
+    }
+
+
 }

@@ -21,6 +21,7 @@ import io.amotech.bleexperimentation.databinding.FragmentConfigBinding;
 public class ConfigFragment extends Fragment {
 
     private FragmentConfigBinding binding;
+    private boolean isVisible;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -38,43 +39,47 @@ public class ConfigFragment extends Fragment {
 
         // initial state
         MainApplication app = (MainApplication) getActivity().getApplication();
-        switchEnableBle.setChecked(app.isBluetoothEnabled());
-        radioRoleNone.setEnabled(app.isBluetoothEnabled());
+        switchEnableBle.setChecked(app.isAppEnabled());
+        radioRoleNone.setEnabled(app.isAppEnabled());
         radioRoleNone.setChecked(app.getDeviceRole() == MainApplication.DeviceRole.ROLE_NONE);
-        radioRolePeripheral.setEnabled(app.isBluetoothEnabled());
+        radioRolePeripheral.setEnabled(app.isAppEnabled());
         radioRolePeripheral.setChecked(app.getDeviceRole() == MainApplication.DeviceRole.ROLE_PERIPHERAL);
-        radioRoleCentral.setEnabled(app.isBluetoothEnabled());
+        radioRoleCentral.setEnabled(app.isAppEnabled());
         radioRoleCentral.setChecked(app.getDeviceRole() == MainApplication.DeviceRole.ROLE_CENTRAL);
 
         switchEnableBle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // set status to app
-                app.setBluetoothEnabled(isChecked);
-                app.setBluetoothDeviceRole(MainApplication.DeviceRole.ROLE_NONE);
-                app.setAdvKind(MainApplication.AdvKind.ADV_KIND_OFF);
-                // update switch
-                switchEnableBle.setChecked(app.isBluetoothEnabled());
-                // update radio buttons
-                radioRoleNone.setEnabled(app.isBluetoothEnabled());
-                radioRoleNone.setChecked(app.getDeviceRole() == MainApplication.DeviceRole.ROLE_NONE);
-                radioRolePeripheral.setEnabled(app.isBluetoothEnabled());
-                radioRolePeripheral.setChecked(app.getDeviceRole() == MainApplication.DeviceRole.ROLE_PERIPHERAL);
-                radioRoleCentral.setEnabled(app.isBluetoothEnabled());
-                radioRoleCentral.setChecked(app.getDeviceRole() == MainApplication.DeviceRole.ROLE_CENTRAL);
+                if (isVisible) {
+                    // set status to app
+                    app.setAppEnabled(isChecked);
+                    app.setBluetoothDeviceRole(MainApplication.DeviceRole.ROLE_NONE);
+                    app.setAdvKind(MainApplication.AdvKind.ADV_KIND_OFF);
+                    // update switch
+                    switchEnableBle.setChecked(app.isAppEnabled());
+                    // update radio buttons
+                    radioRoleNone.setEnabled(app.isAppEnabled());
+                    radioRoleNone.setChecked(app.getDeviceRole() == MainApplication.DeviceRole.ROLE_NONE);
+                    radioRolePeripheral.setEnabled(app.isAppEnabled());
+                    radioRolePeripheral.setChecked(app.getDeviceRole() == MainApplication.DeviceRole.ROLE_PERIPHERAL);
+                    radioRoleCentral.setEnabled(app.isAppEnabled());
+                    radioRoleCentral.setChecked(app.getDeviceRole() == MainApplication.DeviceRole.ROLE_CENTRAL);
+                }
             }
         });
 
         radioGroupBleMode.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                app.setAdvKind(MainApplication.AdvKind.ADV_KIND_OFF);
-                if (checkedId == R.id.radio_role_none) {
-                    app.setBluetoothDeviceRole(MainApplication.DeviceRole.ROLE_NONE);
-                } else if (checkedId == R.id.radio_role_peripheral) {
-                    app.setBluetoothDeviceRole(MainApplication.DeviceRole.ROLE_PERIPHERAL);
-                } else if (checkedId == R.id.radio_role_central) {
-                    app.setBluetoothDeviceRole(MainApplication.DeviceRole.ROLE_CENTRAL);
+                if (isVisible) {
+                    app.setAdvKind(MainApplication.AdvKind.ADV_KIND_OFF);
+                    if (checkedId == R.id.radio_role_none) {
+                        app.setBluetoothDeviceRole(MainApplication.DeviceRole.ROLE_NONE);
+                    } else if (checkedId == R.id.radio_role_peripheral) {
+                        app.setBluetoothDeviceRole(MainApplication.DeviceRole.ROLE_PERIPHERAL);
+                    } else if (checkedId == R.id.radio_role_central) {
+                        app.setBluetoothDeviceRole(MainApplication.DeviceRole.ROLE_CENTRAL);
+                    }
                 }
             }
         });
@@ -88,4 +93,17 @@ public class ConfigFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume(); // first  statement!
+        isVisible = true; // last statement!
+    }
+
+    @Override
+    public void onPause() {
+        isVisible = false; // first  statement!
+        super.onPause(); // last statement!
+    }
+
 }
