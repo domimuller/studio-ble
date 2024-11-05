@@ -23,4 +23,8 @@
     <string name="alert_title_sure_to_exit">Are you sure you want to exit?</string>
     <string name="radio_adv_off">Off</string>
     <string name="ble_role_none">None</string>
+    <string name="title_scanning_mode">Scanning Mode</string>
+    <string name="radio_scan_on">On</string>
+    <string name="radio_scan_off">Off</string>
+    <string name="title_visible_devices">Visible Devices</string>
 </resources>

@@ -6,17 +6,71 @@
     android:layout_height="match_parent"
     tools:context=".ui.central.CentralFragment">
 
+    <!-- Title for Advertising Mode -->
     <TextView
-        android:id="@+id/text_central"
-        android:layout_width="match_parent"
+        android:id="@+id/text_scanning_mode"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/title_scanning_mode"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Radio Group for Scanning Mode -->
+    <RadioGroup
+        android:id="@+id/radio_group_scanning_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_scanning_mode">
+
+        <RadioButton
+            android:id="@+id/radio_scan_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_scan_off" />
+
+        <RadioButton
+            android:id="@+id/radio_scan_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_scan_on" />
+
+    </RadioGroup>
+
+    <!-- Title for Request Log -->
+    <TextView
+        android:id="@+id/text_visible_devices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/title_visible_devices"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radio_group_scanning_mode" />
+
+    <!-- Multi-line Text Box for Request Log -->
+    <TextView
+        android:id="@+id/text_log"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/darker_gray"
+        android:padding="8dp"
+        android:scrollbars="vertical"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        android:fontFamily="monospace"
+        app:layout_constraintTop_toBottomOf="@id/text_visible_devices"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+    
 </androidx.constraintlayout.widget.ConstraintLayout>
