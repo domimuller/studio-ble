@@ -230,11 +230,11 @@ public class MainApplication extends Application {
                 .build();
 
         AdvertiseData primaryData = new AdvertiseData.Builder()
+                // .addManufacturerData(MANUFACTURER_ID, advPayload) // too big, must use scan data!
                 .build();
 
         AdvertiseData scanData = new AdvertiseData.Builder()
                 .addManufacturerData(MANUFACTURER_ID, advPayload)
-                //.setIncludeTxPowerLevel(true)
                 .build();
 
         advCallback = new AdvertisingSetCallback() {
@@ -294,7 +294,7 @@ public class MainApplication extends Application {
         AdvertisingSetParameters primaryParameters = new AdvertisingSetParameters.Builder()
                 .setLegacyMode(false)
                 .setDiscoverable(true)
-                .setScannable(false)
+                .setScannable(false) // "advertisement can't be both connectable and scannable"
                 .setConnectable(true)
                 .setPrimaryPhy(BluetoothDevice.PHY_LE_1M)
                 .setSecondaryPhy(secondaryPhy)
@@ -303,7 +303,6 @@ public class MainApplication extends Application {
                 .build();
 
         AdvertiseData primaryData = new AdvertiseData.Builder()
-                .addManufacturerData(MANUFACTURER_ID, advPayload)
                 .build();
 
         Log.i("BLE-experiment", primaryData.toString());
@@ -313,6 +312,7 @@ public class MainApplication extends Application {
                 .build();
 
         AdvertiseData extendedData = new AdvertiseData.Builder()
+                .addManufacturerData(MANUFACTURER_ID, advPayload)
                 .setIncludeTxPowerLevel(true)
                 .build();
 
@@ -322,20 +322,20 @@ public class MainApplication extends Application {
 
             @Override
             public void onAdvertisingSetStarted(AdvertisingSet advertisingSet, int txPower, int status) {
-                Log.i("BLE-experiment", "Bluetooth advertising started: txPower=" + txPower + ", status=" + status);
+                Log.i("BLE-experiment", "Extended Bluetooth advertising started: txPower=" + txPower + ", status=" + status);
             }
 
             @Override
             public void onAdvertisingSetStopped(AdvertisingSet advertisingSet) {
-                Log.i("BLE-experiment", "Bluetooth advertising stopped");
+                Log.i("BLE-experiment", "Extended Bluetooth advertising stopped");
             }
 
         };
 
         bluetoothAdvertiser.startAdvertisingSet(
                 primaryParameters, primaryData,
-                null,
-                extendedParameters, extendedData,
+                extendedData, null, null,
+                //extendedParameters, extendedData,
                 advCallback);
 
         Log.i("BLE-experiment", "Start of Extended Bluetooth advertising requested");
